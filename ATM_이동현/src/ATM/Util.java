@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class Util {
 	private static Scanner sc= new Scanner(System.in);;
-	private static final String CUR_PATH = System.getProperty("user.dir") + "\\src\\" + Util.class.getPackageName() +"\\";
+	private static final String CUR_PATH = System.getProperty("user.dir") + "\\src\\ATM\\";
 	
 	public static int getIntVal(String msg, int start, int end) {
 		while (true) {
