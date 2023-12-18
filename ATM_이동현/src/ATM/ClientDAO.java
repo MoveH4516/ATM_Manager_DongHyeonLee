@@ -1,19 +1,17 @@
 package ATM;
 
 public class ClientDAO {
-	Util sc;
-	Client[] cList;
+	public Client[] cList;
 	
-	int maxNum;
-	int cnt;
-	int log = -1;
+	private int maxNum;
+	private int cnt;
+	public int log = -1;
 	
-	ClientDAO() {
-		sc = new Util();
+	public ClientDAO() {
 		maxNum = 1001;
 	}
 	
-	void init(String data) {
+	public void init(String data) {
 		String[] temp = data.split("\n");
 		cnt = temp.length;
 		cList = new Client[cnt];
@@ -23,7 +21,7 @@ public class ClientDAO {
 		}
 	}
 	
-	boolean hasData() {
+	private boolean hasData() {
 		if (cList == null) {
 			System.out.println("데이터 없음");
 			return false;
@@ -31,11 +29,11 @@ public class ClientDAO {
 		return true;
 	}
 	
-	void addClient() {
+	public void addClient() {
 		if (cnt == 0) {
 			cList = new Client[1];
 		} 
-		String id = sc.getStrVal("아이디");
+		String id = Util.getStrVal("아이디");
 		int idx = -1;
 		for (int i = 0; i < cList.length; i++) {
 			if (id.equals(cList[i].id)) {
@@ -47,9 +45,9 @@ public class ClientDAO {
 			System.out.println("중복된 아이디");
 			return;
 		}
-		String pw = sc.getStrVal("비밀번호");
-		String name = sc.getStrVal("이름");
-//		String acc = sc.getStrVal("계좌번호");
+		String pw = Util.getStrVal("비밀번호");
+		String name = Util.getStrVal("이름");
+//		String acc = Util.getStrVal("계좌번호");
 //		if (acc.length() != 14) {
 //			System.out.println("계좌번호 오류");
 //			return;
@@ -75,9 +73,9 @@ public class ClientDAO {
 		cnt++;
 	}
 	
-	int login() {
-		String id = sc.getStrVal("ID");
-		String pw = sc.getStrVal("PW");
+	public int login() {
+		String id = Util.getStrVal("ID");
+		String pw = Util.getStrVal("PW");
 		for (int i = 0; i < cnt; i++) {
 			if (id.equals(cList[i].id) && pw.equals(cList[i].pw)) {
 				System.out.println("로그인 성공");
@@ -89,14 +87,14 @@ public class ClientDAO {
 		return -1;
 	}
 	
-	void inputAccData(AccountDAO accDAO) {
+	public void inputAccData(AccountDAO accDAO) {
 		if (!hasData()) return;
 		for (int i = 0; i < cnt; i++) {
 			cList[i].accList = accDAO.getAccFromClient(cList[i]);
 		}
 	}
 	
-	void updateMaxNum() {
+	public void updateMaxNum() {
 		if(cnt == 0) return;
 		int maxNo = 0;
 		for(Client c : cList) {
@@ -107,8 +105,8 @@ public class ClientDAO {
 		this.maxNum = maxNo;
 	}
 	
-	int checkAcc() {
-		String acc = sc.getStrVal("계좌");
+	private int checkAcc() {
+		String acc = Util.getStrVal("계좌");
 		for (int i = 0; i < cList[log].accList.length; i++) {
 			if (cList[log].accList[i].accNumber.equals(acc)) {
 				return i;
@@ -117,17 +115,17 @@ public class ClientDAO {
 		return -1;
 	}
 	
-	void inputMoney() {		
+	public void inputMoney() {		
 		int num = checkAcc();
 		if (num == -1) {
 			System.out.println("계좌번호가 틀렸습니다.");
 			return;
 		}
-		int money = sc.getIntVal("입금 금액 (한도 100만원)", 0, 1000000);
+		int money = Util.getIntVal("입금 금액 (한도 100만원)", 0, 1000000);
 		cList[log].accList[num].money += money;
 	}
 	
-	void transMoney() {
+	public void transMoney() {
 		if (cList[log].accList == null) {
 			System.out.println("등록된 계좌가 없습니다.");
 			return;
@@ -145,7 +143,7 @@ public class ClientDAO {
 		int idx1 = -1;
 		int idx2 = -1;
 		System.out.println("보낼 계좌");
-		String acc = sc.getStrVal("계좌");
+		String acc = Util.getStrVal("계좌");
 		for (int i = 0; i < cnt; i++) {
 			if (cList[i].accList != null) {
 				for (int j = 0; j < cList[i].accList.length; j++) {
@@ -161,22 +159,22 @@ public class ClientDAO {
 			return;
 		}
 		
-		int money = sc.getIntVal("입금할 금액 : ", 0, cList[log].accList[num].money);
+		int money = Util.getIntVal("입금할 금액 : ", 0, cList[log].accList[num].money);
 		cList[log].accList[num].money -= money;
 		cList[idx1].accList[idx2].money += money;				
 	}
 	
-	void outputMoney() {
+	public void outputMoney() {
 		int num = checkAcc();
 		if (num == -1) {
 			System.out.println("계좌번호가 틀렸습니다.");
 			return;
 		}
-		int money = sc.getIntVal("출금할 금액 : ", 0, cList[log].accList[num].money);
+		int money = Util.getIntVal("출금할 금액 : ", 0, cList[log].accList[num].money);
 		cList[log].accList[num].money -= money;
 	}
 	
-	String saveFile() {
+	public String saveFile() {
 		if (cnt == 0) return "";
 		String data = "";
 		for (Client a : cList) {
@@ -185,14 +183,14 @@ public class ClientDAO {
 		return data;
 	}
 	
-	boolean addaccount() {
+	public boolean addaccount() {
 		if (cList[log].accList == null) return false;
 		if (cList[log].accList.length == 3) {
 			System.out.println("계좌 추가 불가능");
 			return true;
 		}
 		return false;
-//		String acc = sc.getStrVal("계좌번호");
+//		String acc = Util.getStrVal("계좌번호");
 //		if (acc.length() != 14) {
 //			System.out.println("계좌번호 오류");
 //			return;
@@ -209,7 +207,7 @@ public class ClientDAO {
 //		}
 	}
 	
-	void print() {
+	public void print() {
 		for (int i = 0; i < cnt; i++) {
 			System.out.println(cList[i].clientNo + " " + cList[i].id + " " + cList[i].pw + " " + cList[i].name);
 			if (cList[i].accList == null) System.out.println("계좌가 없습니다.");
@@ -222,8 +220,8 @@ public class ClientDAO {
 		}
 	}
 	
-	int checkID() {
-		String id = sc.getStrVal("아이디 검색 : ");
+	private int checkID() {
+		String id = Util.getStrVal("아이디 검색 : ");
 		for (int i = 0; i < cnt; i++) {
 			if (id.equals(cList[i].id)) {
 				return i;
@@ -232,30 +230,30 @@ public class ClientDAO {
 		return -1;
 	}
 	
-	void editProfile() {
+	public void editProfile() {
 		int num = checkID();
 		if (num == -1) {
 			System.out.println("해당 아이디 없음.");
 			return;
 		}
-		int sel = sc.getIntVal("[1]비밀번호 변경 [2]이름 변경", 1, 2);
+		int sel = Util.getIntVal("[1]비밀번호 변경 [2]이름 변경", 1, 2);
 		if (sel == 1) {
-			String pw = sc.getStrVal("변경할 비밀번호");
+			String pw = Util.getStrVal("변경할 비밀번호");
 			cList[num].pw = pw;
 		} else {
-			String name = sc.getStrVal("변경할 이름");
+			String name = Util.getStrVal("변경할 이름");
 			cList[num].name = name;
 		}
 	}
 	
-	void removeMember() {
+	public void removeMember() {
 		int num = checkID();
 		if (num == -1) {
 			System.out.println("해당 아이디 없음.");
 			return;
 		}
 		System.out.println(cList[num].id + "를 정말 삭제하시겠습니까?");
-		int sel = sc.getIntVal("[1]예 [2]아니오", 1, 2);
+		int sel = Util.getIntVal("[1]예 [2]아니오", 1, 2);
 		if (sel == 1) {
 			for (int i = num; i < cnt - 1; i++) {
 				cList[i] = cList[i + 1];
@@ -266,12 +264,12 @@ public class ClientDAO {
 		}
 	}
 	
-	void printMyPage() {
+	public void printMyPage() {
 		System.out.printf("%s\n", cList[log]);
 	}
 	
-	boolean withdraw() {
-		int sel = sc.getIntVal("정말 탈퇴하시겠습니까? [1]예 [2]아니오", 1, 2);
+	public boolean withdraw() {
+		int sel = Util.getIntVal("정말 탈퇴하시겠습니까? [1]예 [2]아니오", 1, 2);
 		if (sel == 1) {
 			int idx = 0;
 			Client[] temp = cList;

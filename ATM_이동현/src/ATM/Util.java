@@ -9,10 +9,10 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Util {
-	Scanner sc= new Scanner(System.in);;
-	final String CUR_PATH = System.getProperty("user.dir") + "\\src\\ATM\\";
+	private static Scanner sc= new Scanner(System.in);;
+	private static final String CUR_PATH = System.getProperty("user.dir") + "\\src\\" + Util.class.getPackageName() +"\\";
 	
-	int getIntVal(String msg, int start, int end) {
+	public static int getIntVal(String msg, int start, int end) {
 		while (true) {
 			System.out.printf("▶ %s[%d-%d] 입력:", msg, start, end);
 			try {
@@ -30,7 +30,7 @@ public class Util {
 		}
 	}
 	
-	String getStrVal(String msg) {
+	public static String getStrVal(String msg) {
 		System.out.printf("▶ %s 입력:", msg);
 		return sc.next();
 	}
@@ -47,7 +47,7 @@ public class Util {
 		}
 	}
 	
-	String loadData (String fileName) {
+	public static String loadData (String fileName) {
 		String data = "";
 		try (FileReader fr = new FileReader(CUR_PATH + fileName);
 				BufferedReader br = new BufferedReader(fr)) {
@@ -67,7 +67,7 @@ public class Util {
 		return data;
 	}
 	
-	void laodFromFile(AccountDAO accDAO, ClientDAO cliDAO) {
+	public static void laodFromFile(AccountDAO accDAO, ClientDAO cliDAO) {
 		String accData = loadData("account.txt");
 		String cliData = loadData("client.txt");
 		
@@ -77,7 +77,7 @@ public class Util {
 		cliDAO.updateMaxNum();
 	}
 	
-	void saveToFile (AccountDAO accDAO, ClientDAO cliDAO) {
+	public static void saveToFile (AccountDAO accDAO, ClientDAO cliDAO) {
 		String accData = accDAO.saveFile();
 		String cliData = cliDAO.saveFile();
 		
@@ -85,7 +85,7 @@ public class Util {
 		saveData("client.txt", cliData);
 	}
 	
-	void saveData(String fileName, String data) {
+	private static void saveData(String fileName, String data) {
 		try(FileWriter fw = new FileWriter(CUR_PATH + fileName)) {
 			fw.write(data);
 			System.out.println("저장");

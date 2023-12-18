@@ -2,15 +2,10 @@ package ATM;
 
 public class AccountDAO {
 	
-	Util sc;
-	Account[] accList;
-	int cnt;
+	private Account[] accList;
+	private int cnt;
 	
-	AccountDAO() {
-		sc = new Util();
-	}
-	
-	void init(String data) {
+	public void init(String data) {
 		String[] temp = data.split("\n");
 		cnt = temp.length;
 		accList = new Account[cnt];
@@ -20,7 +15,7 @@ public class AccountDAO {
 		}
 	}
 	
-	String saveFile() {
+	public String saveFile() {
 		if (cnt == 0) return "";
 		String data = "";
 		for (Account a : accList) {
@@ -29,7 +24,7 @@ public class AccountDAO {
 		return data;
 	}
 	
-	boolean checkAcc(String acc) {
+	private boolean checkAcc(String acc) {
 		if (acc.length() != 14) {
 			return true;
 		}
@@ -37,8 +32,8 @@ public class AccountDAO {
 		return false;
 	}
 	
-	void addAcc (Client c) {
-		String acc = sc.getStrVal("계좌 입력 : ");
+	public void addAcc (Client c) {
+		String acc = Util.getStrVal("계좌 입력 : ");
 		Account account = findacc(c, acc);
 		if (account != null) {
 			System.out.println("계좌번호 중복");
@@ -61,7 +56,7 @@ public class AccountDAO {
 		cnt++;
 	}
 	
-	Account findacc (Client c, String acc) {
+	private Account findacc (Client c, String acc) {
 		if (c.accList == null) return null;
 		for (Account a : c.accList) {
 			if (acc.equals(a.accNumber)) {
@@ -71,8 +66,8 @@ public class AccountDAO {
 		return null;
 	}
 	
-	void deleteAcc (Client c) {
-		String acc = sc.getStrVal("계좌 입력 : ");
+	public void deleteAcc (Client c) {
+		String acc = Util.getStrVal("계좌 입력 : ");
 		Account account = findacc(c, acc);
 		if (account == null) {
 			System.out.println("계좌번호 불일치");
@@ -98,7 +93,7 @@ public class AccountDAO {
 			cnt--;
 		}
 	}
-	Account[] getAccFromClient(Client c) {
+	public Account[] getAccFromClient(Client c) {
 		int cnt = 0;
 		for (Account a : accList) {
 			if (c.id.equals(a.id)) {
@@ -115,7 +110,4 @@ public class AccountDAO {
 		}
 		return list;
 	}
-	
-	
-	
 }
