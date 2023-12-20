@@ -12,8 +12,6 @@ public class Account {
 		this.money = money;
 	}
 	
-	
-	
 	@Override
 	public String toString() {
 		String data = accNumber;

@@ -35,7 +35,7 @@ public class Util {
 		return sc.next();
 	}
 	
-	void fileInit(String fileName) {
+	public void fileInit(String fileName) {
 		File file = new File(CUR_PATH + fileName);
 		if (!file.exists()) {
 			try {
