@@ -46,9 +46,5 @@ public class _Main {
                 r_knight2,
                 r_magicKnight1
         });
-        
-        
-        
-        
 	}
 }

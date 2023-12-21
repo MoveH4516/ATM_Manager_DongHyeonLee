@@ -9,11 +9,12 @@ public class Horse<T extends Unit> {
     }
 
     public Horse() {
+    	
 	}
 
 	public void setRider(T rider) {
-    	System.out.printf("%s가 말에 올라탔다 " , rider);
-        this.rider = rider;
+		this.rider = rider;
+    	System.out.printf("%s가 말에 올라탔다 " , this.rider);
         rider.hp += extraHp;
         System.out.println(this);
     }
